@@ -91,5 +91,3 @@ function Letter(character, inWord, inPosition) {
   this.inWord = inWord || false;
   this.inPosition = inPosition || false;
 }
-
-module.exports = Round;
