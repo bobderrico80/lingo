@@ -1,12 +1,87 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Command Line Lingo</title>
+    <title>Lingo!</title>
     <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="lingo.js"></script>
   </head>
   <body>
-    <h1>Command-line Lingo</h1> 
-    <p>Press F12 to start!</p>
+    <h1>Lingo!</h1> 
+    <table class="guessTable">
+    </table> 
+    <div class="guessInputContainer">
+      <input class="guessInput" maxlength="1" id="letter1" type="text"/>
+      <input class="guessInput" maxlength="1" id="letter2" type="text"/>
+      <input class="guessInput" maxlength="1" id="letter3" type="text"/>
+      <input class="guessInput" maxlength="1" id="letter4" type="text"/>
+      <input class="guessInput" maxlength="1" id="letter5" type="text"/>
+    </div>
+    <button class="submitGuess">Submit Guess!</button>
   </body>
+  <script>
+    var round = new Round();
+    var gameWon = false;
+
+    $(document).ready(function() {
+      round.start();
+      hintToCells(round.hint);
+
+      $('.guessInput').on('keyup', function(e) {
+        if (e.which === 8) {
+          $(this).prev().focus(); 
+        } else {
+          $(this).next().focus();
+        }
+      });
+
+      $('.submitGuess').on('click', function() {
+        var guess = getGuessString(); 
+        gameWon = round.guess(guess);
+        if (gameWon) {
+          guessToCells(guess);
+          $('.guessRow').last().children().css('background-color', 'green');
+          alert('WINNER!');
+        } else {
+          var newHint = round.hint;
+          hintToCells(newHint); 
+          guessToCells(guess);
+          $('.guessInput').val('');
+          $('.guessInput').first().focus();
+        }
+      });
+
+    });
+
+    function hintToCells(hint) {
+      var row = '<tr class="guessRow"></tr>';
+      $('.guessTable').append(row);
+      for (var i = 0; i < WORD_LENGTH; i++) {
+        var statusClass = '';
+        if (hint[i].inWord) {
+          statusClass = ' inWord';
+        }
+        if (hint[i].inPosition) {
+          statusClass = ' inPosition';
+        }
+        $('.guessRow').last().append('<td class="guessCell' + statusClass + '">' + hint[i].character  + '</td>');
+      }
+    };
+
+    function getGuessString() {
+      var string = '';
+      $('.guessInput').each(function() {
+        string += $(this).val();
+      });
+      return string;
+    }
+
+    function guessToCells(guess) {
+      var i = 0;
+      $('.guessRow').last().children().each(function() {
+        $(this).text(guess.charAt(i));
+       i++; 
+      });
+    }
+  </script>
 </html>
