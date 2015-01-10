@@ -9,6 +9,91 @@ var WORD_LIST = [
   'LIGHT'
 ];
 var WORD_LENGTH = 5;
+var round = new Round();
+var gameWon = false;
+
+$(document).ready(function() {
+  round.start();
+  hintToCells(round.hint);
+
+  $(document).on('keydown', function(e) {
+    if (e.which === 8) { //backspace
+      e.preventDefault();
+      backspace(e);
+    } else if (e.which >= 65 && e.which <= 90) { //alpha keys 
+      inputAlpha(e.which);
+    } else if (e.which === 13 && ($('.blank').length === 0)) { //enter key (only if complete)
+      submitGuess(); 
+    } else { //any other key      
+      //do nothing
+    }
+  });
+});
+
+function backspace() {
+  var targetInputBox = $('.guessInputContainer').children('.filled').last();
+  targetInputBox.html('&nbsp');
+  targetInputBox.removeClass('filled');
+  targetInputBox.addClass('blank');
+}
+
+function inputAlpha(key) {
+  var character = String.fromCharCode(key);
+  var targetInputBox = $('.guessInputContainer').children('.blank').first();
+  targetInputBox.html(character);
+  targetInputBox.removeClass('blank');
+  targetInputBox.addClass('filled');
+}
+
+function submitGuess() {
+    var guess = getGuessString(); 
+    gameWon = round.guess(guess);
+    if (gameWon) {
+      guessToCells(guess);
+      $('.guessRow').last().children().css('background-color', 'green');
+      $('.guessInputContainer').hide();
+      alert('WINNER!');
+    } else {
+      var newHint = round.hint;
+      hintToCells(newHint); 
+      guessToCells(guess);
+      $('.guessInput').html('&nbsp');
+      $('.guessInput').removeClass('filled');
+      $('.guessInput').addClass('blank');
+    }
+}
+
+function getGuessString() {
+  var string = '';
+  $('.guessInput').each(function() {
+    string += $(this).text();
+  });
+  return string;
+}
+
+function hintToCells(hint) {
+  var row = '<tr class="guessRow"></tr>';
+  $('.guessTable').append(row);
+  for (var i = 0; i < WORD_LENGTH; i++) {
+    var statusClass = '';
+    if (hint[i].inWord) {
+      statusClass = ' inWord';
+    }
+    if (hint[i].inPosition) {
+      statusClass = ' inPosition';
+    }
+    $('.guessRow').last().append('<td class="guessCell' + statusClass + '">' + hint[i].character  + '</td>');
+  }
+}
+
+
+function guessToCells(guess) {
+  var i = 0;
+  $('.guessRow').last().children().each(function() {
+    $(this).text(guess.charAt(i));
+   i++; 
+  });
+}
 
 function Round() {
   this.word = '';
