@@ -28,10 +28,17 @@
       hintToCells(round.hint);
 
       $('.guessInput').on('keyup', function(e) {
-        if (e.which === 8) {
+        if (e.which === 8) { //backspace
+          $(this).prev().val('');
           $(this).prev().focus(); 
-        } else {
+        } else if (e.which >= 65 && e.which <= 90){ //alpha keys
           $(this).next().focus();
+        } else if ((e.which >= 48 && e.which <= 57) || 
+          (e.which >= 96 && e.which <= 111) || 
+          (e.which >= 186 && e.which <= 222)) { //printing non-alpha keys
+          $(this).val('');
+        } else { //non printing keys
+          //do nothing
         }
       });
 
