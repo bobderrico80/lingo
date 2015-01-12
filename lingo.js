@@ -52,7 +52,8 @@ function submitGuess() {
       guessToCells(guess);
       $('.guessRow').last().children().css('background-color', 'green');
       $('.guessInputContainer').hide();
-      alert('WINNER!');
+      $('.winner').show();
+      $('.instruct').hide();
     } else {
       var newHint = round.hint;
       hintToCells(newHint); 
@@ -98,13 +99,13 @@ function guessToCells(guess) {
 function Round() {
   this.word = '';
   this.hint = [];
-  this.guesses = [];
-  this.guessCount = 0;
+  this.unguessedCharacters = [];
 }
 
 Round.prototype.start = function() {
   this.word = getNewWord();
   this.hint = getFirstHint(this.word);
+  this.unguessedCharacters = setUnguessedCharacters(this.word);
   
   function getNewWord() {
     return WORD_LIST[Math.floor((Math.random() * WORD_LIST.length))];
@@ -121,15 +122,23 @@ Round.prototype.start = function() {
     }   
     return hint;
   }
+
+  function setUnguessedCharacters(word) {
+    var unguessedCharacters = [];
+    for (var i = 1; i < word.length; i++) {
+      unguessedCharacters[i-1] = word.charAt(i); 
+    }
+    return unguessedCharacters;
+  }
 };
 
 Round.prototype.guess = function(guessedWord) {
   guessedWord = guessedWord.toUpperCase();
-  this.guesses[this.guessCount] = guessedWord;
   if (guessedWord === this.word) {
     return true;
   }
   this.hint = getNextHint(guessedWord, this.word);
+  unsetGuessedCharacters(guessedWord);
   return false;
 
   function getNextHint(guessedWord, word) {
@@ -148,10 +157,27 @@ Round.prototype.guess = function(guessedWord) {
     if (word.charAt(i) === guessedWord.charAt(i)) {
       return new Letter(word.charAt(i), true, true);
     }
-    if (word.indexOf(guessedWord.charAt(i)) != -1) {
+    if (isUnguessedCharacter(guessedWord.charAt(i))) {
       return new Letter(guessedWord.charAt(i), true, false); 
     }
     return new Letter();
+  }
+
+  function isUnguessedCharacter(character) {
+    if (round.unguessedCharacters.indexOf(character) > -1) {
+      return true;
+    }
+    return false;
+  }
+
+  function unsetGuessedCharacters(guessedWord) {
+    for (i = 0; i < guessedWord.length; i++) {
+      if (round.unguessedCharacters.indexOf(guessedWord.charAt(i)) > -1 && 
+          round.word.charAt(i) === guessedWord.charAt(i)) {
+        var indexOfCharacter = round.unguessedCharacters.indexOf(guessedWord.charAt(i));
+        round.unguessedCharacters.splice(indexOfCharacter, 1);
+      }
+    }
   }
 };
 

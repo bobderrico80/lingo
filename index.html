@@ -5,18 +5,31 @@
     <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="lingo.js"></script>
+    <meta charset="UTF-8" />
   </head>
   <body>
-    <h1>Lingo!</h1> 
-    <table class="guessTable">
-    </table> 
-    <div class="guessInputContainer">
-      <div class="guessInput blank">&nbsp</div>
-      <div class="guessInput blank">&nbsp</div>
-      <div class="guessInput blank">&nbsp</div>
-      <div class="guessInput blank">&nbsp</div>
-      <div class="guessInput blank">&nbsp</div>
+    <div class="container">
+      <h1>Lingo!</h1> 
+      <h2>How to play:</h2>
+      <ul>
+        <li>Find the secret word by guessing a five-letter word. We have given you the first letter of the secret word.</li>
+        <li>Letters in green mean that your guessed word has a letter in the same position as the secret word.</li>
+        <li>Letters in yellow mean that your guessed word and the secret word share a letter, but it is not in the correct position.</li>
+        <li>Continue guessing until find the secret word.</li>
+      </ul>
+      <div class="gameboard">
+        <table class="guessTable">
+        </table> 
+        <div class="guessInputContainer">
+          <div class="guessInput blank">&nbsp</div>
+          <div class="guessInput blank">&nbsp</div>
+          <div class="guessInput blank">&nbsp</div>
+          <div class="guessInput blank">&nbsp</div>
+          <div class="guessInput blank">&nbsp</div>
+        </div>
+        <p class="instruct">Type your guess! Press enter when finished</p>
+        <h2 class="winner">You found the secret word! <a href="/lingo">New Game</a></h2>
+      </div>
     </div>
-    <button class="submitGuess">Submit Guess!</button>
   </body>
 </html>

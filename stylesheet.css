@@ -42,6 +42,6 @@ td {
   display: inline-block;
 }
 
-.submitGuess {
-  display:block;
+.winner {
+  display:none;
 }
