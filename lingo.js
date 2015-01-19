@@ -17,6 +17,10 @@ $(document).ready(function() {
   $('.guessSubmit').on('click', function() {
     submitGuess();
   });
+
+  $('.hint').on('click', function() {
+    round.getUserHint();
+  });
 });
 
 function submitGuess() {
@@ -25,10 +29,8 @@ function submitGuess() {
     if (gameWon) {
       guessToCells(guess);
       $('.guessRow').last().children().css('background-color', 'green');
-      $('.guessInput').hide();
+      $('.play').hide();
       $('.winner').show();
-      $('.instruct').hide();
-      $('.guessSubmit').hide();
     } else {
       var newHint = round.hint;
       hintToCells(newHint); 
@@ -140,6 +142,18 @@ Round.prototype.guess = function(guessedWord) {
       }
     }
   }
+};
+
+Round.prototype.getUserHint = function() {
+  for (var i = 0; i < WORD_LENGTH; i++) {
+    if (!this.hint[i].inPosition) {
+      break;
+    }
+  }
+  this.hint[i].character = this.word.charAt(i);
+  this.hint[i].inWord = true;
+  this.hint[i].inPosition = true;
+  hintToCells(this.hint);
 };
 
 function Hint() {}

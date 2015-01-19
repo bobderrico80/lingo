@@ -70,14 +70,14 @@ header {
   letter-spacing: 27px;
 }
 
-.guessSubmit {
+button {
   border: 1px solid black;
   background-color: white;
   font-size: 18px;
   margin: 2px 2px 0 0;
 }
 
-.guessSubmit:focus {
+button:focus {
   border: 1px solid blue;
 }
 

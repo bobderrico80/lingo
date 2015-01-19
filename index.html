@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="lingo.js"></script>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width"/>
   </head>
   <body>
     <div class="container">
@@ -22,11 +23,12 @@
       <div class="gameboard">
         <table class="guessTable">
         </table> 
-        <input type="text" id="guessInput" class="guessInput" maxlength="5" size="5"/>
+        <input type="text" id="guessInput" class="guessInput play" maxlength="5" size="5"/>
         <div class="rightJustify">
-          <button class="guessSubmit">Guess!</button>
+          <button class="guessSubmit play">Guess!</button>
         </div>
-        <p class="instruct">Type your guess! Press enter when finished</p>
+        <p class="instruct play">Type your guess! Press enter when finished.</p>
+        <button class="hint play">Need a Hint?</button>
         <h2 class="winner">You found the secret word! <a href="/lingo">New Game</a></h2>
       </div>
     </div>
