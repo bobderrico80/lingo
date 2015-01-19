@@ -6,8 +6,14 @@ td {
   border: 1px solid black;
 }
 
+.gameboard {
+  width: 320px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .guessCell {
-  width: 50px;
+  width: 60px;
   height: 60px;
   font-size: 50px;
   text-align: center;  
@@ -23,23 +29,33 @@ td {
   background-color: green;
 }
 
-.guessInputContainer {
-  position:relative;
-  left: 1px;
-  font-size: 0;
-}
-
 .guessInput {
-  width: 50px;
+  width: 305px;
   height: 60px;
-  font-size: 50px;
-  text-align: center;
-  padding:0px;
+  font-size: 55px;
+  text-align: left;
+  padding-left:10px;
   border: 1px solid black; 
   margin: 1px;
-  text-transform: capitalize;
-  font-family: serif;
-  display: inline-block;
+  text-transform: uppercase;
+  font-family: monospace;
+  display: block;
+  letter-spacing: 27px;
+}
+
+.guessSubmit {
+  border: 1px solid black;
+  background-color: white;
+  font-size: 18px;
+  margin: 2px 2px 0 0;
+}
+
+.guessSubmit:focus {
+  border: 1px solid blue;
+}
+
+.rightJustify {
+  text-align: right;
 }
 
 .winner {

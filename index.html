@@ -20,12 +20,9 @@
       <div class="gameboard">
         <table class="guessTable">
         </table> 
-        <div class="guessInputContainer">
-          <div class="guessInput blank">&nbsp</div>
-          <div class="guessInput blank">&nbsp</div>
-          <div class="guessInput blank">&nbsp</div>
-          <div class="guessInput blank">&nbsp</div>
-          <div class="guessInput blank">&nbsp</div>
+        <input type="text" id="guessInput" class="guessInput" maxlength="5" size="5"/>
+        <div class="rightJustify">
+          <button class="guessSubmit">Guess!</button>
         </div>
         <p class="instruct">Type your guess! Press enter when finished</p>
         <h2 class="winner">You found the secret word! <a href="/lingo">New Game</a></h2>

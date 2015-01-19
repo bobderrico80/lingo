@@ -15,61 +15,34 @@ var gameWon = false;
 $(document).ready(function() {
   round.start();
   hintToCells(round.hint);
+  $('.guessInput').focus();
 
-  $(document).on('keydown', function(e) {
-    if (e.which === 8) { //backspace
-      e.preventDefault();
-      backspace(e);
-    } else if (e.which >= 65 && e.which <= 90) { //alpha keys 
-      inputAlpha(e.which);
-    } else if (e.which === 13 && ($('.blank').length === 0)) { //enter key (only if complete)
-      submitGuess(); 
-    } else { //any other key      
-      //do nothing
+  $('.guessInput').on('keyup', function() {
+    if ($(this).val().length === 5) {
+      $('.guessSubmit').focus();
     }
+  });
+
+  $('.guessSubmit').on('click', function() {
+    submitGuess();
   });
 });
 
-function backspace() {
-  var targetInputBox = $('.guessInputContainer').children('.filled').last();
-  targetInputBox.html('&nbsp');
-  targetInputBox.removeClass('filled');
-  targetInputBox.addClass('blank');
-}
-
-function inputAlpha(key) {
-  var character = String.fromCharCode(key);
-  var targetInputBox = $('.guessInputContainer').children('.blank').first();
-  targetInputBox.html(character);
-  targetInputBox.removeClass('blank');
-  targetInputBox.addClass('filled');
-}
-
 function submitGuess() {
-    var guess = getGuessString(); 
+    var guess = $('.guessInput').val(); 
     gameWon = round.guess(guess);
     if (gameWon) {
       guessToCells(guess);
       $('.guessRow').last().children().css('background-color', 'green');
-      $('.guessInputContainer').hide();
+      $('.guessInput').hide();
       $('.winner').show();
       $('.instruct').hide();
     } else {
       var newHint = round.hint;
       hintToCells(newHint); 
       guessToCells(guess);
-      $('.guessInput').html('&nbsp');
-      $('.guessInput').removeClass('filled');
-      $('.guessInput').addClass('blank');
+      $('.guessInput').val('').focus();
     }
-}
-
-function getGuessString() {
-  var string = '';
-  $('.guessInput').each(function() {
-    string += $(this).text();
-  });
-  return string;
 }
 
 function hintToCells(hint) {
@@ -144,11 +117,7 @@ Round.prototype.guess = function(guessedWord) {
   function getNextHint(guessedWord, word) {
     var hint = new Hint();
     for (var i = 0; i < WORD_LENGTH; i++) {
-      if (i === 0) {
-        hint[0] = new Letter(word.charAt(0), true, true);
-      } else {
-        hint[i] = compare(guessedWord, word, i);
-      }
+      hint[i] = compare(guessedWord, word, i);
     }
     return hint;
   }
