@@ -37,6 +37,7 @@ function submitGuess() {
       $('.guessInput').hide();
       $('.winner').show();
       $('.instruct').hide();
+      $('.guessSubmit').hide();
     } else {
       var newHint = round.hint;
       hintToCells(newHint); 
