@@ -1,22 +1,13 @@
-var WORD_LIST = [
-  'LINGO',
-  'PIZZA',
-  'SHOES',
-  'TREES',
-  'LEMON',
-  'BOOKS',
-  'CHAIR',
-  'LIGHT'
-];
 var WORD_LENGTH = 5;
 var round = new Round();
 var gameWon = false;
 
 $(document).ready(function() {
-  round.start();
-  hintToCells(round.hint);
-  $('.guessInput').focus();
-
+  $.getScript('word-list.js', function() {
+    round.start();
+    hintToCells(round.hint);
+    $('.guessInput').focus();
+  });
   $('.guessInput').on('keyup', function() {
     if ($(this).val().length === 5) {
       $('.guessSubmit').focus();
@@ -30,7 +21,7 @@ $(document).ready(function() {
 
 function submitGuess() {
     var guess = $('.guessInput').val(); 
-    gameWon = round.guess(guess);
+    var gameWon = round.guess(guess);
     if (gameWon) {
       guessToCells(guess);
       $('.guessRow').last().children().css('background-color', 'green');
