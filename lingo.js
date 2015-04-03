@@ -2,46 +2,57 @@ var WORD_LENGTH = 5;
 var round = new Round();
 var gameWon = false;
 
+
 $(document).ready(function() {
+  var $guessInput = $('.guessInput');
+  var $guessSubmit = $('.guessSubmit');
+  var $hint = $('.hint');
+
   $.getScript('word-list.js', function() {
     round.start();
     hintToCells(round.hint);
-    $('.guessInput').focus();
+    $guessInput.focus();
   });
-  $('.guessInput').on('keyup', function() {
+  $guessInput.on('keyup', function() {
     if ($(this).val().length === 5) {
-      $('.guessSubmit').focus();
+      $guessSubmit.focus();
     }
   });
 
-  $('.guessSubmit').on('click', function() {
+  $guessSubmit.on('click', function() {
     submitGuess();
   });
 
-  $('.hint').on('click', function() {
+  $hint.on('click', function() {
     round.getUserHint();
   });
 });
 
 function submitGuess() {
-    var guess = $('.guessInput').val(); 
+    var $guessInput = $('.guessInput');
+    var $guessRow = $('.guessRow');
+    var $play = $('.play');
+    var $winner = $('.winner');
+    var guess = $guessInput.val(); 
     var gameWon = round.guess(guess);
     if (gameWon) {
       guessToCells(guess);
-      $('.guessRow').last().children().css('background-color', 'green');
-      $('.play').hide();
-      $('.winner').show();
+      $guessRow.last().children().css('background-color', 'green');
+      $play.hide();
+      $winner.show();
     } else {
       var newHint = round.hint;
       hintToCells(newHint); 
       guessToCells(guess);
-      $('.guessInput').val('').focus();
+      $guessInput.val('').focus();
     }
 }
 
 function hintToCells(hint) {
+  var $guessTable = $('.guessTable');
+  var $guessRow = $('.guessRow');
   var row = '<tr class="guessRow"></tr>';
-  $('.guessTable').append(row);
+  $guessTable.append(row);
   for (var i = 0; i < WORD_LENGTH; i++) {
     var statusClass = '';
     if (hint[i].inWord) {
@@ -56,8 +67,9 @@ function hintToCells(hint) {
 
 
 function guessToCells(guess) {
+  var $guessRow = $('.guessRow');
   var i = 0;
-  $('.guessRow').last().children().each(function() {
+  $guessRow.last().children().each(function() {
     $(this).text(guess.charAt(i));
    i++; 
   });
